@@ -9,6 +9,7 @@ export default defineConfig({
   ],
   preview: {
     port: 5173,
+    allowedHosts: ['improf.zdvproject.xyz'],
   },
   server: {
     port: 5173

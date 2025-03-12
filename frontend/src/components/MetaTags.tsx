@@ -1,8 +1,6 @@
-import { Helmet } from 'react-helmet-async';
-
 function MetaTags({ title, description, image, name }: { title: string, description: string, image: string, name: string }) {
     return (
-        <Helmet>
+        <>
             <title>{title}</title>
             <link rel='canonical' href={window.location.href} />
 
@@ -26,7 +24,7 @@ function MetaTags({ title, description, image, name }: { title: string, descript
             <meta name="twitter:title" content={title} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={image} />
-        </Helmet>
+        </>
     );
 }
 

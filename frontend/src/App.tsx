@@ -10,8 +10,6 @@ import Profile from './pages/Profile'
 import Edit from './pages/Edit'
 import Callback from './pages/DiscordCallback'
 
-import { HelmetProvider } from 'react-helmet-async';
-
 function App() {
   useEffect(() => {
     WebFont.load({
@@ -23,7 +21,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <HelmetProvider>
         <Routes>
           <Route path="*" element={<MainLayout><NotFound /></MainLayout>} />
           <Route path='/login' element={<MainLayout><Login /></MainLayout>} />
@@ -32,7 +29,6 @@ function App() {
           <Route path='/edit' element={<MainLayout><Edit /></MainLayout>} />
           <Route path='/auth/discord/callback' element={<MainLayout><Callback /></MainLayout>} />
         </Routes>
-      </HelmetProvider>
     </BrowserRouter>
   )
 }

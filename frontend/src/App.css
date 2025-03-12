@@ -1,0 +1,39 @@
+* {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+}
+
+body {
+  background-color: #06080E;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.create-input, .create-input input {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+}
+
+.create-input::placeholder, .create-input input::placeholder {
+  color: rgba(255, 255, 255, 0.356) !important;
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+}
+
+.create-radio-group .ant-radio-button-wrapper {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.651) !important;
+}
+
+.create-radio-group .ant-radio-button-wrapper-checked {
+  background-color: #05DF72 !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+  background-color: transparent !important;
+}
+
+.ant-picker-now-btn {
+  color: "#05DF72" !important;
+}

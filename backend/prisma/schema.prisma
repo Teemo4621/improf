@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id              Int       @id @default(autoincrement())
+  email           String    @unique
+  username        String
+  profile_created Boolean   @default(false)
+  discord_id      String
+  refresh_token   String    @default("")
+  profile         Profiles?
+}
+
+model Profiles {
+  id                Int      @id @default(autoincrement())
+  user_id           Int      @unique
+  user_discord_id   String
+  user              Users    @relation(fields: [user_id], references: [id])
+  status            String?
+  name              String
+  birthdate         String?
+  gender            String
+  about             String
+  profile_image_url String?
+  banner_image_url  String?
+  facebook_url      String?
+  twitter_url       String?
+  youtube_url       String?
+  twitch_url        String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}

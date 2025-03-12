@@ -73,24 +73,24 @@ pipeline {
         }
 
         stage('Run Backend Container') {
-            steps {
-                script {
-                    sh """
-                        docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3422:3000 ${BACKEND_IMAGE_NAME} \\
-                        -e PORT=${PORT} \\
-                        -e DATABASE_URL=${DATABASE_URL} \\
-                        -e ACCESS_TOKENJWT_SECRET=${ACCESS_TOKENJWT_SECRET} \\
-                        -e ACCESS_TOKEN_EXPIRATION=${ACCESS_TOKEN_EXPIRATION} \\
-                        -e REFRESH_TOKENJWT_SECRET=${REFRESH_TOKENJWT_SECRET} \\
-                        -e REFRESH_TOKEN_EXPIRATION=${REFRESH_TOKEN_EXPIRATION} \\
-                        -e DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID} \\
-                        -e DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET} \\
-                        -e DISCORD_CLIENT_REDIRECT=${DISCORD_CLIENT_REDIRECT} \\
-                        -e DISCORD_CLIENT_SCOPE=${DISCORD_CLIENT_SCOPE} \\
-                    """
-                }
+        steps {
+            script {
+                sh """
+                    docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3422:3000 ${BACKEND_IMAGE_NAME} \
+                    -e PORT="${PORT}" \
+                    -e DATABASE_URL="${DATABASE_URL}" \
+                    -e ACCESS_TOKENJWT_SECRET="${ACCESS_TOKENJWT_SECRET}" \
+                    -e ACCESS_TOKEN_EXPIRATION="${ACCESS_TOKEN_EXPIRATION}" \
+                    -e REFRESH_TOKENJWT_SECRET="${REFRESH_TOKENJWT_SECRET}" \
+                    -e REFRESH_TOKEN_EXPIRATION="${REFRESH_TOKEN_EXPIRATION}" \
+                    -e DISCORD_CLIENT_ID="${DISCORD_CLIENT_ID}" \
+                    -e DISCORD_CLIENT_SECRET="${DISCORD_CLIENT_SECRET}" \
+                    -e DISCORD_CLIENT_REDIRECT="${DISCORD_CLIENT_REDIRECT}" \
+                    -e DISCORD_CLIENT_SCOPE="${DISCORD_CLIENT_SCOPE}"
+                """
             }
         }
+    }
 
         stage('Run Frontend Container') {
             steps {

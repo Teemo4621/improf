@@ -61,20 +61,7 @@ pipeline {
         stage('Run Backend Container') {
             steps {
                 script {
-                    withEnv([
-                        "PORT=3000",
-                        "DATABASE_URL=${credentials('IMPROF_DATABASE_URL')}",
-                        "ACCESS_TOKENJWT_SECRET=${credentials('IMPROF_ACCESS_TOKENJWT_SECRET')}",
-                        "ACCESS_TOKEN_EXPIRATION=${credentials('IMPROF_ACCESS_TOKEN_EXPIRATION')}",
-                        "REFRESH_TOKENJWT_SECRET=${credentials('IMPROF_REFRESH_TOKENJWT_SECRET')}",
-                        "REFRESH_TOKEN_EXPIRATION=${credentials('IMPROF_REFRESH_TOKEN_EXPIRATION')}",
-                        "DISCORD_CLIENT_ID=${credentials('IMPROF_DISCORD_CLIENT_ID')}",
-                        "DISCORD_CLIENT_SECRET=${credentials('IMPROF_DISCORD_CLIENT_SECRET')}",
-                        "DISCORD_CLIENT_REDIRECT=${credentials('IMPROF_DISCORD_CLIENT_REDIRECT')}",
-                        "DISCORD_CLIENT_SCOPE=${credentials('IMPROF_DISCORD_CLIENT_SCOPE')}"
-                    ]) {
-                        sh "docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3422:3000 ${BACKEND_IMAGE_NAME}"
-                    }
+                    sh "docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3422:3000 ${BACKEND_IMAGE_NAME}"
                 }
             }
         }

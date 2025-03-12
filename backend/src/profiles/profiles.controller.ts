@@ -15,6 +15,7 @@ import { ResponseService } from 'src/common/services/response.service';
 import { UserService } from 'src/users/user.service';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { existsSync, mkdirSync } from 'fs';
 import { extname } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { Response } from 'express'; // Import Response from express
@@ -61,6 +62,11 @@ export class ProfilesController {
                             file.fieldname === 'profile_image'
                                 ? 'uploads/profiles'
                                 : 'uploads/banners';
+
+                        if (!existsSync(folder)) {
+                            mkdirSync(folder, { recursive: true });
+                        }
+
                         callback(null, folder);
                     },
                     filename: (req, file, callback) => {
@@ -164,6 +170,11 @@ export class ProfilesController {
                             file.fieldname === 'profile_image'
                                 ? 'uploads/profiles'
                                 : 'uploads/banners';
+
+                        if (!existsSync(folder)) {
+                            mkdirSync(folder, { recursive: true });
+                        }
+
                         callback(null, folder);
                     },
                     filename: (req, file, callback) => {

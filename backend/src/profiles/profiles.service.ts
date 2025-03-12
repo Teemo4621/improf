@@ -5,7 +5,7 @@ import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ProfilesService {
-    constructor(private prisma: PrismaService) { }
+    constructor(private prisma: PrismaService) {}
 
     getProfileByUserId(id: number) {
         return this.prisma.profiles.findFirst({ where: { user_id: id } });
@@ -25,20 +25,20 @@ export class ProfilesService {
                 facebook_url: profile.facebook_url ?? null,
                 twitter_url: profile.twitter_url ?? null,
                 youtube_url: profile.youtube_url ?? null,
-                twitch_url: profile.twitch_url ?? null
-            }
+                twitch_url: profile.twitch_url ?? null,
+            },
         });
     }
 
     async createProfile(profile: CreateProfileDto) {
         const user = await this.prisma.users.update({
             where: {
-                id: Number(profile.user_id)
+                id: Number(profile.user_id),
             },
             data: {
-                profile_created: true
-            }
-        })
+                profile_created: true,
+            },
+        });
 
         return this.prisma.profiles.create({
             data: {
@@ -49,13 +49,14 @@ export class ProfilesService {
                 status: profile.status,
                 gender: profile.gender,
                 about: profile.about,
+                theme: profile.theme,
                 profile_image_url: profile.profile_image_url ?? null,
                 banner_image_url: profile.banner_image_url ?? null,
                 facebook_url: profile.facebook_url ?? null,
                 twitter_url: profile.twitter_url ?? null,
                 youtube_url: profile.youtube_url ?? null,
-                twitch_url: profile.twitch_url ?? null
+                twitch_url: profile.twitch_url ?? null,
             },
-        })
+        });
     }
 }

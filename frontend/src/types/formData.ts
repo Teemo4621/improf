@@ -9,6 +9,7 @@ export interface formData {
     about: string;
     profile_image_url: File | string | null;
     banner_image_url: File | string | null;
+    theme: string;
 
     facebook_url: string | null;
     twitter_url: string | null;

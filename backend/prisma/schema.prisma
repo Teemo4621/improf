@@ -23,6 +23,7 @@ model Profiles {
   user_discord_id   String
   user              Users    @relation(fields: [user_id], references: [id])
   status            String?
+  theme             String   @default("green")
   name              String
   birthdate         String?
   gender            String

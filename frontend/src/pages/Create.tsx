@@ -17,6 +17,15 @@ const options: CheckboxGroupProps<string>['options'] = [
     { label: 'ไม่ระบุ', value: 'other' },
 ];
 
+const themColorOptions: CheckboxGroupProps<string>['options'] = [
+    { label: 'เขียว', value: 'green' },
+    { label: 'ฟ้า', value: 'blue' },
+    { label: 'เเดง', value: 'red' },
+    { label: 'ส้ม', value: 'orange' },
+    { label: 'ม่วง', value: 'purple' },
+    { label: 'ขาว', value: 'gray' },
+];
+
 function Create() {
     const navigator = useNavigate()
     const messageApi = useNotification()
@@ -33,6 +42,7 @@ function Create() {
             about: '',
             profile_image_url: null,
             banner_image_url: null,
+            theme: 'green',
 
             facebook_url: '',
             twitter_url: '',
@@ -51,9 +61,14 @@ function Create() {
         setFormData({ ...formData, birthdate: dateStr });
     };
 
-    const handleInputRadioChange = (e: RadioChangeEvent) => {
+    const handleInputRadioChangeGender = (e: RadioChangeEvent) => {
         const value = e.target.value;
         setFormData({ ...formData, gender: value });
+    };
+
+    const handleInputRadioChangeTheme = (e: RadioChangeEvent) => {
+        const value = e.target.value;
+        setFormData({ ...formData, theme: value });
     };
 
     const [previewProfileImageUrl, setPreviewProfileImageUrl] = useState<string | null>(null);
@@ -124,7 +139,7 @@ function Create() {
                         <h1 className="text-4xl font-bold text-green-400 flex gap-2">สร้างโปรไฟล์ใหม่</h1>
                         <p className="text-gray-500">กรอกแบบฟอร์มด้านล่างนี้เพื่อสร้างโปรไฟล์ใหม่ ✨</p>
                     </div>
-                    <Form>
+                    <Form.Item>
                         <label className='text-xl text-white font-bold'>• ข้อมูลบัญชี</label>
                         <Form.Item style={{ marginBottom: "3.5rem", marginTop: "1rem" }}>
                             <div className="relative w-full h-[9rem]">
@@ -168,7 +183,7 @@ function Create() {
                         </Form.Item>
                         <Form.Item style={{ marginBottom: "20px" }}>
                             <label className='text-white text-lg mr-2'>เพศ</label>
-                            <Radio.Group name="gender" onChange={handleInputRadioChange} value={formData.gender} style={{ backgroundColor: "transparent", color: "white" }} buttonStyle="solid" className="create-radio-group" options={options} optionType="button" />
+                            <Radio.Group name="gender" onChange={handleInputRadioChangeGender} value={formData.gender} style={{ backgroundColor: "transparent", color: "white" }} buttonStyle="solid" className="create-radio-group" options={options} optionType="button" />
                         </Form.Item>
                         <Form.Item style={{ marginBottom: "20px" }}>
                             <label className='text-white text-lg'>เกี่ยวกับฉัน</label>
@@ -191,16 +206,21 @@ function Create() {
                             <label className='text-white text-lg'>Twitter</label>
                             <Input name="twitter" onChange={handleInputChange} value={formData.twitter_url || ""} prefix={<FaTwitter />} style={{ backgroundColor: "transparent", color: "white", padding: "8px", fontSize: "16px", borderRadius: "10px" }} className="create-input" type="text" placeholder="www.x.com/*****" />
                         </Form.Item>
-                        <Form.Item style={{ marginBottom: "20px" }}>
+                        <Form.Item style={{ marginBottom: "3rem" }}>
                             <label className='text-white text-lg'>Twitch</label>
                             <Input name="twitch" onChange={handleInputChange} value={formData.twitch_url || ""} prefix={<FaTwitch />} style={{ backgroundColor: "transparent", color: "white", padding: "8px", fontSize: "16px", borderRadius: "10px" }} className="create-input" type="text" placeholder="www.twitch.tv/*****" />
+                        </Form.Item>
+                        <label className='text-xl text-white font-bold'>• รูปเเบบของโปรไฟล์</label>
+                        <Form.Item>
+                            <label className='text-white text-lg mr-2'>สีของโปรไฟล์</label>
+                            <Radio.Group name="theme" onChange={handleInputRadioChangeTheme} value={formData.theme} style={{ backgroundColor: "transparent", color: "white" }} buttonStyle="solid" className="create-radio-group" options={themColorOptions} optionType="button" />
                         </Form.Item>
                         <Form.Item style={{ marginBottom: "10px", marginTop: "20px" }}>
                             <button onClick={handleCreatedProfile} className="w-full bg-green-400 hover:opacity-85 duration-150 text-white cursor-pointer font-bold py-2 px-4 rounded">
                                 สร้างเลย
                             </button>
                         </Form.Item>
-                    </Form>
+                    </Form.Item>
                 </div>
                 <div className="p-4 md:p-18">
                     <div className="mb-20">

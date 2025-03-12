@@ -129,17 +129,17 @@ function CardProfile({ formData }: { formData: formData }) {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="border-2 border-dashed border-green-400 rounded-lg text-card-foreground w-full border-border/30 shadow-sm">
+      className={`border-2 border-dashed border-${formData.theme}-400 rounded-lg text-card-foreground w-full border-border/30 shadow-sm`}>
       <div className="relative w-full h-[9rem] p-2">
         {bannerImageSrc ? (
           <img
             src={bannerImageSrc.startsWith("/uploads/banners") ? `${(import.meta.env.VITE_API_URL as string).replace("/api/v1", "")}${bannerImageSrc}` : bannerImageSrc}
             alt="Banner"
-            className="w-full h-full object-cover p-1 border-2 border-dashed border-green-400 rounded-lg cursor-pointer hover:opacity-90 duration-250"
+            className={`w-full h-full object-cover p-1 border-2 border-dashed border-${formData.theme}-400 rounded-lg cursor-pointer hover:opacity-90 duration-250`}
             onClick={() => handleOpenModal("banner")}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center border-2 border-dashed border-green-400 rounded-lg">
+          <div className={`w-full h-full flex items-center justify-center border-2 border-dashed border-${formData.theme}-400 rounded-lg`}>
             <span className="text-white text-xl"></span>
           </div>
         )}
@@ -148,11 +148,11 @@ function CardProfile({ formData }: { formData: formData }) {
             <img
               src={profileImageSrc.startsWith("/uploads/profiles") ? `${(import.meta.env.VITE_API_URL as string).replace("/api/v1", "")}${profileImageSrc}` : profileImageSrc}
               alt="Profile"
-              className="w-full h-full object-cover p-1 border-2 border-dashed border-green-400 rounded-full cursor-pointer hover:opacity-90 duration-250"
+              className={`w-full h-full object-cover p-1 border-2 border-dashed border-${formData.theme}-400 rounded-full cursor-pointer hover:opacity-90 duration-250`}
               onClick={() => handleOpenModal("profile")}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-[#06080E] border-2 border-dashed border-green-400 rounded-full">
+            <div className={`w-full h-full flex items-center justify-center bg-[#06080E] border-2 border-dashed border-${formData.theme}-400 rounded-full`}>
               <span className="text-white"></span>
             </div>
           )}

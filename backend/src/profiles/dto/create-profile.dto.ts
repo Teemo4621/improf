@@ -6,6 +6,7 @@ export class CreateProfileDto {
     readonly birthdate: string;
     readonly gender: string;
     readonly about: string;
+    readonly theme: string;
     readonly profile_image_url?: string | null;
     readonly banner_image_url?: string | null;
     readonly facebook_url?: string | null;

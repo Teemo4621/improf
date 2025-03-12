@@ -9,6 +9,7 @@ import MainLayout from './components/MainLayout'
 import Profile from './pages/Profile'
 import Edit from './pages/Edit'
 import Callback from './pages/DiscordCallback'
+import '@ant-design/v5-patch-for-react-19';
 
 function App() {
   useEffect(() => {
@@ -21,14 +22,14 @@ function App() {
 
   return (
     <BrowserRouter>
-        <Routes>
-          <Route path="*" element={<MainLayout><NotFound /></MainLayout>} />
-          <Route path='/login' element={<MainLayout><Login /></MainLayout>} />
-          <Route path='/create' element={<MainLayout><Create /></MainLayout>} />
-          <Route path='/profile/:username' element={<MainLayout><Profile /></MainLayout>} />
-          <Route path='/edit' element={<MainLayout><Edit /></MainLayout>} />
-          <Route path='/auth/discord/callback' element={<MainLayout><Callback /></MainLayout>} />
-        </Routes>
+      <Routes>
+        <Route path="*" element={<MainLayout><NotFound /></MainLayout>} />
+        <Route path='/login' element={<MainLayout><Login /></MainLayout>} />
+        <Route path='/create' element={<MainLayout><Create /></MainLayout>} />
+        <Route path='/profile/:username' element={<MainLayout><Profile /></MainLayout>} />
+        <Route path='/edit' element={<MainLayout><Edit /></MainLayout>} />
+        <Route path='/auth/discord/callback' element={<MainLayout><Callback /></MainLayout>} />
+      </Routes>
     </BrowserRouter>
   )
 }

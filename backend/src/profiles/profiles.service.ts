@@ -20,6 +20,7 @@ export class ProfilesService {
                 status: profile.status ?? null,
                 gender: profile.gender,
                 about: profile.about,
+                theme: profile.theme,
                 profile_image_url: profile.profile_image_url ?? null,
                 banner_image_url: profile.banner_image_url ?? null,
                 facebook_url: profile.facebook_url ?? null,

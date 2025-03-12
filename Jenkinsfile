@@ -61,7 +61,20 @@ pipeline {
         stage('Run Backend Container') {
             steps {
                 script {
-                    sh "docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3422:3000 -v \$PWD/backend/uploads:/app/uploads ${BACKEND_IMAGE_NAME}"
+                    sh """
+                    docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3422:${env.PORT} \\
+                    -v \$PWD/backend/uploads:/app/uploads \\
+                    -e DATABASE_URL=${env.DATABASE_URL} \\
+                    -e ACCESS_TOKENJWT_SECRET=${env.ACCESS_TOKENJWT_SECRET} \\
+                    -e ACCESS_TOKEN_EXPIRATION=${env.ACCESS_TOKEN_EXPIRATION} \\
+                    -e REFRESH_TOKENJWT_SECRET=${env.REFRESH_TOKENJWT_SECRET} \\
+                    -e REFRESH_TOKEN_EXPIRATION=${env.REFRESH_TOKEN_EXPIRATION} \\
+                    -e DISCORD_CLIENT_ID=${env.DISCORD_CLIENT_ID} \\
+                    -e DISCORD_CLIENT_SECRET=${env.DISCORD_CLIENT_SECRET} \\
+                    -e DISCORD_CLIENT_REDIRECT=${env.DISCORD_CLIENT_REDIRECT} \\
+                    -e DISCORD_CLIENT_SCOPE=${env.DISCORD_CLIENT_SCOPE} \\
+                    ${BACKEND_IMAGE_NAME}
+                    """
                 }
             }
         }

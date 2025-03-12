@@ -8,20 +8,6 @@ pipeline {
         FRONTEND_IMAGE_NAME = 'improf'
         BACKEND_CONTAINER_NAME = 'improfapi'
         FRONTEND_CONTAINER_NAME = 'improf'
-
-        PORT='${env.PORT}'
-        DATABASE_URL='${env.DATABASE_URL}'
-
-        ACCESS_TOKENJWT_SECRET='${env.ACCESS_TOKENJWT_SECRET}'
-        ACCESS_TOKEN_EXPIRATION='${env.ACCESS_TOKEN_EXPIRATION}'
-
-        REFRESH_TOKENJWT_SECRET='${env.REFRESH_TOKENJWT_SECRET}'
-        REFRESH_TOKEN_EXPIRATION='${env.REFRESH_TOKEN_EXPIRATION}'
-
-        DISCORD_CLIENT_ID='${env.DISCORD_CLIENT_ID}'
-        DISCORD_CLIENT_SECRET='${env.DISCORD_CLIENT_SECRET}'
-        DISCORD_CLIENT_REDIRECT='${env.DISCORD_CLIENT_REDIRECT}'
-        DISCORD_CLIENT_SCOPE='${env.DISCORD_CLIENT_SCOPE}'
     }
     stages {
         stage('Clone Repository') {
@@ -74,20 +60,23 @@ pipeline {
 
         stage('Run Backend Container') {
         steps {
+            environment {
+                PORT='3000'
+
+                DATABASE_URL = credentials("IMPROF_DATABASE_URL")
+
+                ACCESS_TOKENJWT_SECRET = credentials("IMPROF_ACCESS_TOKENJWT_SECRET")
+                ACCESS_TOKEN_EXPIRATION = credentials("IMPROF_ACCESS_TOKEN_EXPIRATION")
+                REFRESH_TOKENJWT_SECRET = credentials("IMPROF_REFRESH_TOKENJWT_SECRET")
+                REFRESH_TOKEN_EXPIRATION = credentials("IMPROF_REFRESH_TOKEN_EXPIRATION")
+
+                DISCORD_CLIENT_ID = credentials("IMPROF_DISCORD_CLIENT_ID")
+                DISCORD_CLIENT_SECRET = credentials("IMPROF_DISCORD_CLIENT_SECRET")
+                DISCORD_CLIENT_REDIRECT = credentials("IMPROF_DISCORD_CLIENT_REDIRECT")
+                DISCORD_CLIENT_SCOPE = credentials("IMPROF_DISCORD_CLIENT_SCOPE")
+            }
             script {
-                sh """
-                    docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3422:3000 ${BACKEND_IMAGE_NAME} \
-                    -e PORT="${PORT}" \
-                    -e DATABASE_URL="${DATABASE_URL}" \
-                    -e ACCESS_TOKENJWT_SECRET="${ACCESS_TOKENJWT_SECRET}" \
-                    -e ACCESS_TOKEN_EXPIRATION="${ACCESS_TOKEN_EXPIRATION}" \
-                    -e REFRESH_TOKENJWT_SECRET="${REFRESH_TOKENJWT_SECRET}" \
-                    -e REFRESH_TOKEN_EXPIRATION="${REFRESH_TOKEN_EXPIRATION}" \
-                    -e DISCORD_CLIENT_ID="${DISCORD_CLIENT_ID}" \
-                    -e DISCORD_CLIENT_SECRET="${DISCORD_CLIENT_SECRET}" \
-                    -e DISCORD_CLIENT_REDIRECT="${DISCORD_CLIENT_REDIRECT}" \
-                    -e DISCORD_CLIENT_SCOPE="${DISCORD_CLIENT_SCOPE}"
-                """
+                sh "docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3422:3000 ${BACKEND_IMAGE_NAME}"
             }
         }
     }

@@ -13,7 +13,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    checkout([$class: 'GitSCM', 
+                    checkout([$class: 'GitSCM',
                         branches: [[name: "*/${BRANCH}"]],
                         userRemoteConfigs: [[
                             url: REPO_URL,
@@ -61,7 +61,7 @@ pipeline {
         stage('Run Backend Container') {
             steps {
                 script {
-                    sh "docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3422:3000 ${BACKEND_IMAGE_NAME}"
+                    sh "docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3422:3000 -v \$PWD/backend/uploads:/app/uploads ${BACKEND_IMAGE_NAME}"
                 }
             }
         }

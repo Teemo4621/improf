@@ -24,6 +24,22 @@ pipeline {
             }
         }
 
+        stage('Remove Old Backend Docker Image') {
+            steps {
+                script {
+                    sh "docker rmi ${BACKEND_IMAGE_NAME} || true"
+                }
+            }
+        }
+
+        stage('Remove Old Frontend Docker Image') {
+            steps {
+                script {
+                    sh "docker rmi ${FRONTEND_IMAGE_NAME} || true"
+                }
+            }
+        }
+
         stage('Build Backend Docker Image') {
             steps {
                 script {

@@ -8,6 +8,7 @@ import { DiscordResponse } from "../types/discordStatus";
 import findAppImage from "../helpers/FindAppsImageUrl";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
+import GetTheme from "../helpers/GetTheme";
 
 function calculateAge(birthdate: string | string[]) {
   const birth = new Date(birthdate.toString());
@@ -139,7 +140,7 @@ function CardProfile({ formData }: { formData: formData }) {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`border-2 border-dashed ${formData.theme ? `border-${formData.theme}-400` : "border-green-400"} rounded-lg text-card-foreground w-full border-border/30 shadow-sm`}
+      className={`border-2 border-dashed ${GetTheme(formData.theme)} rounded-lg text-card-foreground w-full border-border/30 shadow-sm`}
     >
       <div className="relative w-full h-[9rem] p-2">
         {bannerImageSrc ? (
@@ -150,12 +151,12 @@ function CardProfile({ formData }: { formData: formData }) {
                 : bannerImageSrc
             }
             alt="Banner"
-            className={`w-full h-full object-cover p-1 border-2 border-dashed ${formData.theme ? `border-${formData.theme}-400` : "border-green-400"} rounded-lg cursor-pointer hover:opacity-90 duration-250`}
+            className={`w-full h-full object-cover p-1 border-2 border-dashed ${GetTheme(formData.theme)} rounded-lg cursor-pointer hover:opacity-90 duration-250`}
             onClick={() => handleOpenModal("banner")}
           />
         ) : (
           <div
-            className={`w-full h-full flex items-center justify-center border-2 border-dashed ${formData.theme ? `border-${formData.theme}-400` : "border-green-400"} rounded-lg`}
+            className={`w-full h-full flex items-center justify-center border-2 border-dashed ${GetTheme(formData.theme)} rounded-lg`}
           >
             <span className="text-white text-xl"></span>
           </div>
@@ -169,12 +170,12 @@ function CardProfile({ formData }: { formData: formData }) {
                   : profileImageSrc
               }
               alt="Profile"
-              className={`w-full h-full object-cover p-1 border-2 border-dashed ${formData.theme ? `border-${formData.theme}-400` : "border-green-400"} rounded-full cursor-pointer hover:opacity-90 duration-250`}
+              className={`w-full h-full object-cover p-1 border-2 border-dashed ${GetTheme(formData.theme)} rounded-full cursor-pointer hover:opacity-90 duration-250`}
               onClick={() => handleOpenModal("profile")}
             />
           ) : (
             <div
-              className={`w-full h-full flex items-center justify-center bg-[#06080E] border-2 border-dashed ${formData.theme ? `border-${formData.theme}-400` : "border-green-400"} rounded-full`}
+              className={`w-full h-full flex items-center justify-center bg-[#06080E] border-2 border-dashed ${GetTheme(formData.theme)} rounded-full`}
             >
               <span className="text-white"></span>
             </div>

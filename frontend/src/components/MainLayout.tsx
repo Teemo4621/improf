@@ -1,12 +1,12 @@
-import React, { ReactNode, useEffect } from 'react'
+import React, { ReactNode, useEffect } from "react";
 
-import { ConfigProvider, ThemeConfig } from 'antd';
-import { UserProvider, useUserContext } from '../contexts/UserContext';
-import { isAxiosError } from 'axios';
-import AxiosClient from '../helpers/AxiosClient';
-import { useNavigate } from 'react-router-dom';
-import Cookies from "js-cookie"
-import { NotificationProvider } from '../contexts/NotificationContext';
+import { ConfigProvider, ThemeConfig } from "antd";
+import { UserProvider, useUserContext } from "../contexts/UserContext";
+import { isAxiosError } from "axios";
+import AxiosClient from "../helpers/AxiosClient";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { NotificationProvider } from "../contexts/NotificationContext";
 
 interface RouteProps {
   children: ReactNode;
@@ -22,7 +22,7 @@ const AuthWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
       if (!token) return;
 
       try {
-        const res = await AxiosClient.get("/auth/@me")
+        const res = await AxiosClient.get("/auth/@me");
 
         setUser(res.data.data);
       } catch (err) {
@@ -41,9 +41,9 @@ const AuthWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     if (user && ["/login", "/signup"].includes(location.pathname)) {
       if (!user.profile_created) {
-        navigate(`/create`)
+        navigate(`/create`);
       } else {
-        navigate(`/profile/@${user?.username}`)
+        navigate(`/profile/@${user?.username}`);
       }
     }
 
@@ -56,7 +56,6 @@ const AuthWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const MainLayout: React.FC<RouteProps> = ({ children }) => {
-
   const themeConfig: ThemeConfig = {
     components: {
       DatePicker: {
@@ -89,20 +88,18 @@ const MainLayout: React.FC<RouteProps> = ({ children }) => {
         colorText: "rgba(255,255,255,0.88)",
         colorTextDescription: "rgba(255,255,255,0.88)",
       },
-    }
+    },
   };
 
   return (
     <ConfigProvider theme={themeConfig}>
       <UserProvider>
         <NotificationProvider>
-          <AuthWrapper>
-            {children}
-          </AuthWrapper>
+          <AuthWrapper>{children}</AuthWrapper>
         </NotificationProvider>
       </UserProvider>
     </ConfigProvider>
-  )
-}
+  );
+};
 
-export default MainLayout
+export default MainLayout;

@@ -18,7 +18,7 @@ import { diskStorage } from 'multer';
 import { existsSync, mkdirSync } from 'fs';
 import { extname } from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { Response } from 'express'; // Import Response from express
+import { Response } from 'express';
 
 @Controller('api/v1/profiles')
 export class ProfilesController {
@@ -134,12 +134,8 @@ export class ProfilesController {
                 return this.responseService.BadRequestResponse('Bad request');
             const newProfile = await this.profileService.createProfile({
                 ...profile,
-                profile_image_url: profile_image
-                    ? `/uploads/profiles/${profile_image}`
-                    : '',
-                banner_image_url: banner_image
-                    ? `/uploads/banners/${banner_image}`
-                    : '',
+                profile_image_url: `/uploads/profiles/${profile_image}`,
+                banner_image_url: `/uploads/banners/${banner_image}`,
             });
 
             if (!newProfile)

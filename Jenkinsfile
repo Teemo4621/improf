@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        GIT_CREDENTIALS_ID = '34053a5c-214a-4654-bd74-8a085b8f3774'
+        GIT_CREDENTIALS_ID = '73afd83f-99cd-45c4-b6ca-15e5ec399dec'
         REPO_URL = 'https://github.com/Teemo4621/improf.git'
         BRANCH = 'main'
         BACKEND_IMAGE_NAME = 'improfapi'

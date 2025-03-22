@@ -6,10 +6,11 @@ import {
   Input,
   Radio,
   RadioChangeEvent,
+  Switch,
 } from "antd";
 import { CheckboxGroupProps } from "antd/es/checkbox";
 import TextArea from "antd/es/input/TextArea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaFacebookF, FaTwitch, FaTwitter, FaYoutube } from "react-icons/fa";
 import Footer from "../components/Footer";
 import { formData } from "../types/formData";
@@ -17,6 +18,8 @@ import AxiosClient from "../helpers/AxiosClient";
 import { useUserContext } from "../contexts/UserContext";
 import { useNotification } from "../contexts/NotificationContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { DiscordResponse } from "../types/discordStatus";
 
 const options: CheckboxGroupProps<string>["options"] = [
   { label: "ชาย", value: "male" },
@@ -55,6 +58,26 @@ function Create() {
     youtube_url: "",
     twitch_url: "",
   });
+
+  const [isDiscordStatus, setIsDiscordStatus] = useState<boolean>(false);
+
+  const fetchDiscordActivities = async () => {
+    try {
+      await axios.get<DiscordResponse>(
+        `https://api.lanyard.rest/v1/users/${user?.discord_id}`,
+      );
+      setIsDiscordStatus(true);
+    } catch (error) {
+      console.log(error);
+      setIsDiscordStatus(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchDiscordActivities();
+    }
+  }, [user]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -150,6 +173,13 @@ function Create() {
         messageApi.error("Failed to create profile!");
       }
     });
+  };
+
+  const handleSwitchChangeDiscord = (switchValue: boolean) => {
+    fetchDiscordActivities();
+    if (switchValue && !isDiscordStatus) {
+      window.open(`https://discord.gg/Sk8UFry8zu`, "_blank");
+    }
   };
 
   return (
@@ -383,6 +413,31 @@ function Create() {
                 options={themColorOptions}
                 optionType="button"
               />
+            </Form.Item>
+            <label className="text-xl text-white font-bold">
+              • ฟังชั่นพิเศษเพิ่มเติม
+            </label>
+            <Form.Item>
+              <div className="flex items-center">
+                <label className="text-white text-lg mr-2">
+                  เชื่อมสถานะกับ discord มายังเว็พไซต์
+                </label>
+                <Switch
+                  onChange={handleSwitchChangeDiscord}
+                  className="text-white bg-gray-400"
+                  value={isDiscordStatus}
+                />
+              </div>
+              <span className="text-gray-400 text-md">
+                เข้า discord server นี้ื้เพื่อเปิดใช้ฟังชั่นเชื่อมสถานะกับ
+                discord มายังเว็พไซต์ 🔔
+              </span>
+              <br />
+              <span className="text-gray-400 text-md">
+                (⛔ เมื่อเข้า discord server
+                เเล้วจะไม่สามารถปิดการใช้งานฟังชั่นนี้ได้ยกเว้นจะออกจาก server
+                นี้ก่อนถึงจะสามารถปิดการใช้งานฟังชั่นนี้ได้)
+              </span>
             </Form.Item>
             <Form.Item style={{ marginBottom: "10px", marginTop: "20px" }}>
               <button

@@ -1,6 +1,6 @@
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
-import { ConfigProvider, ThemeConfig } from "antd";
+import { ConfigProvider, Spin, ThemeConfig } from "antd";
 import { UserProvider, useUserContext } from "../contexts/UserContext";
 import { isAxiosError } from "axios";
 import AxiosClient from "../helpers/AxiosClient";
@@ -17,9 +17,14 @@ const AuthWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const token = Cookies.get("auth.token");
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchUserData = async () => {
-      if (!token) return;
+      if (!token) {
+        setLoading(false);
+        return;
+      }
 
       try {
         const res = await AxiosClient.get("/auth/@me");
@@ -32,6 +37,8 @@ const AuthWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
         }
         navigate("/login");
         console.log(err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -39,18 +46,35 @@ const AuthWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   }, [navigate, setUser, token]);
 
   useEffect(() => {
-    if (user && ["/login", "/signup"].includes(location.pathname)) {
-      if (!user.profile_created) {
-        navigate(`/create`);
-      } else {
-        navigate(`/profile/@${user?.username}`);
+    if (loading) return;
+
+    if (!token || !user) {
+      if (["/create", "/edit"].includes(location.pathname)) {
+        navigate("/login", { replace: true });
+      }
+    } else {
+      if (["/login", "/signup"].includes(location.pathname)) {
+        navigate(
+          user.profile_created ? `/profile/@${user.username}` : "/create",
+          { replace: true },
+        );
       }
     }
+  }, [user, navigate, token, loading]);
 
-    if (!user && ["/create", "/edit"].includes(location.pathname)) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
+  if (loading)
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Spin size="large" className="text-green-400 transform" />
+      </div>
+    );
 
   return <>{children}</>;
 };
@@ -78,6 +102,14 @@ const MainLayout: React.FC<RouteProps> = ({ children }) => {
         colorPrimaryActive: "#0cc954",
         colorPrimaryHover: "#05DF72",
         colorText: "#ffffff",
+      },
+      Switch: {
+        colorPrimary: "#05DF72",
+        colorPrimaryHover: "#05DF72",
+        colorText: "#ffffff",
+      },
+      Spin: {
+        colorPrimary: "#05DF72",
       },
       Modal: {
         contentBg: "rgb(6,8,14)",

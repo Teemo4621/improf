@@ -140,7 +140,7 @@ function CardProfile({ formData }: { formData: formData }) {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`border-2 border-dashed ${GetTheme(formData.theme)} rounded-lg text-card-foreground w-full border-border/30 shadow-sm`}
+      className={`border-2 border-dashed ${GetTheme(formData.theme)} hover:scale-102 duration-200 transition rounded-lg text-card-foreground w-full border-border/30 shadow-sm`}
     >
       <div className="relative w-full h-[9rem] p-2">
         {bannerImageSrc ? (
@@ -259,55 +259,57 @@ function CardProfile({ formData }: { formData: formData }) {
             grabCursor={true} // ให้ตัวชี้เมาส์จับได้เวลาสไลด์
             className="duration-200 hover:scale-102 hover:opacity-85 transform"
           >
-            {activities?.data.activities.map((activity, index) => (
-              <SwiperSlide key={index}>
-                <motion.div
-                  onClick={() => {
-                    if (activity.name === "Spotify") {
-                      window.open(
-                        `https://open.spotify.com/track/${activities.data.spotify.track_id}`,
-                        "_blank",
-                      );
-                    }
-                  }}
-                  className={`min-w-[250px] p-2 border-2 border-gray-400/50 rounded-lg ${activity.name === "Spotify" ? "cursor-pointer" : ""}`}
-                  initial={{ opacity: 0, x: -100 }} // เริ่มจากตำแหน่งซ้าย
-                  animate={{ opacity: 1, x: 0 }} // เลื่อนมาที่ตำแหน่งเดิม
-                  transition={{ duration: 1, delay: 0.3 }} // ใช้เวลา 1 วินาทีในการเลื่อน
-                >
-                  <label className="text-gray-400 font-semibold">
-                    {activity.name === "Spotify"
-                      ? `กำลังฟังเพลง • ${activity.name}`
-                      : `กำลังเล่น • ${activity.name}`}
-                  </label>
-                  <div className="flex gap-4">
-                    <div className="w-[90px] h-[90px] rounded-lg overflow-hidden">
-                      <img
-                        src={
-                          activity.name === "Spotify"
-                            ? activities.data.spotify.album_art_url
-                            : findAppImage(activity)
-                        }
-                        alt="Song"
-                        className="w-full h-full object-cover"
-                      />
+            {activities?.data.activities
+              .filter((activity) => activity.name !== "Custom Status")
+              .map((activity, index) => (
+                <SwiperSlide key={index}>
+                  <motion.div
+                    onClick={() => {
+                      if (activity.name === "Spotify") {
+                        window.open(
+                          `https://open.spotify.com/track/${activities.data.spotify.track_id}`,
+                          "_blank",
+                        );
+                      }
+                    }}
+                    className={`min-w-[250px] p-2 border-2 border-gray-400/50 rounded-lg ${activity.name === "Spotify" ? "cursor-pointer" : ""}`}
+                    initial={{ opacity: 0, x: -100 }} // เริ่มจากตำแหน่งซ้าย
+                    animate={{ opacity: 1, x: 0 }} // เลื่อนมาที่ตำแหน่งเดิม
+                    transition={{ duration: 1, delay: 0.3 }} // ใช้เวลา 1 วินาทีในการเลื่อน
+                  >
+                    <label className="text-gray-400 font-semibold">
+                      {activity.name === "Spotify"
+                        ? `กำลังฟังเพลง • ${activity.name}`
+                        : `กำลังเล่น • ${activity.name}`}
+                    </label>
+                    <div className="flex gap-4">
+                      <div className="w-[90px] h-[90px] rounded-lg overflow-hidden">
+                        <img
+                          src={
+                            activity.name === "Spotify"
+                              ? activities.data.spotify.album_art_url
+                              : findAppImage(activity)
+                          }
+                          alt="Song"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex flex-col justify-center">
+                        <p className="text-lg text-white whitespace-pre-line font-bold">
+                          {activity.name === "Spotify"
+                            ? activities.data.spotify.song
+                            : activity.name}
+                        </p>
+                        <p className="text-sm text-gray-400">
+                          {activity.name === "Spotify"
+                            ? activities.data.spotify.artist
+                            : activity.details}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex flex-col justify-center">
-                      <p className="text-lg text-white whitespace-pre-line font-bold">
-                        {activity.name === "Spotify"
-                          ? activities.data.spotify.song
-                          : activity.name}
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        {activity.name === "Spotify"
-                          ? activities.data.spotify.artist
-                          : activity.details}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </SwiperSlide>
-            ))}
+                  </motion.div>
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
       </div>

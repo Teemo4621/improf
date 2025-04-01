@@ -27,7 +27,11 @@ pipeline {
         stage('Remove Old Backend Docker Image') {
             steps {
                 script {
-                    sh "docker rmi ${BACKEND_IMAGE_NAME} || true"
+                    sh """
+                    docker stop ${BACKEND_CONTAINER_NAME} || true
+                    docker rm ${BACKEND_CONTAINER_NAME} || true
+                    docker rmi -f ${BACKEND_IMAGE_NAME} || true
+                    """
                 }
             }
         }
@@ -35,7 +39,11 @@ pipeline {
         stage('Remove Old Frontend Docker Image') {
             steps {
                 script {
-                    sh "docker rmi ${FRONTEND_IMAGE_NAME} || true"
+                    sh """
+                    docker stop ${FRONTEND_CONTAINER_NAME} || true
+                    docker rm ${FRONTEND_CONTAINER_NAME} || true
+                    docker rmi -f ${FRONTEND_IMAGE_NAME} || true
+                    """
                 }
             }
         }

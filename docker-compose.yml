@@ -6,11 +6,11 @@ services:
       context: ./frontend
     ports:
       - "3223:5173"
-    restart: unless-stopped
+    restart: always
   improf_backend:
     container_name: improf_backend
     build:
       context: ./backend
     ports:
       - "3422:3000"
-    restart: unless-stopped
+    restart: always

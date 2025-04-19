@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:22-alpine as builder
 
 WORKDIR /app
 
@@ -10,6 +10,12 @@ COPY ./ ./
 
 RUN npm run build
 
-EXPOSE 5173
+FROM nginx:alpine as production
 
-CMD ["npm", "run", "preview"]
+ENV NODE_ENV production
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 5173
